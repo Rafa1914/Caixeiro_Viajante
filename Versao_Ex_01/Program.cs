@@ -32,9 +32,7 @@ namespace Caixeiro_Viajante
 
             //Definição do percurso:
             Console.WriteLine("Qual percurso deseja percorrer?");
-            string? percurso = Console.ReadLine();
-            string[] cidades;
-            cidades = percurso.Split(',');
+            string[] cidades = Console.ReadLine().Split(',');
 
             //Cálculo da distância percorrida:
             int distanciaPercorrida = 0;

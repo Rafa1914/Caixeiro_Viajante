@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Versao_Ex_01", "Versao_Ex_01\Versao_Ex_01.csproj", "{D6877E6C-7D13-4917-828E-CA75CC78112E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Versao_Ex_02", "Versao_Ex_01\Versao_Ex_02.csproj", "{D6877E6C-7D13-4917-828E-CA75CC78112E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

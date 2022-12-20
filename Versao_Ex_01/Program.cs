@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Caixeiro_Viajante
 {
@@ -10,38 +11,33 @@ namespace Caixeiro_Viajante
     {
         static void Main()
         {
-            //Inicialização do programa:
-            Console.Write("Digite o número de cidades: ");
-            int.TryParse(Console.ReadLine(), out int n);
+            //Leitura do arquivo de entrada:
+            string pathMatriz = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "matriz.txt");
+            string input = File.ReadAllText(pathMatriz);
+            string[] matriz = input.Split(Environment.NewLine);
 
             //Matriz de distâncias:
-            int[,] distancias = new int[n, n];
+            int numeroCidades = matriz.Length;
+            int[,] distancias = new int[numeroCidades, numeroCidades];
 
             //Preenchimento da matriz:
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < numeroCidades; i++)
             {
-                distancias[i, i] = 0;
-                for (int j = i + 1; j < n; j++)
-                {
-                    Console.Write($"Digite a distância entre a cidade {i + 1} e {j + 1}: ");
-                    int.TryParse(Console.ReadLine(), out int d);
-                    distancias[i, j] = d;
-                    distancias[j, i] = distancias[i, j];
-                }
+                string[] d = matriz[i].Split(',');
+                for (int j = 0; j < numeroCidades; j++)
+                    int.TryParse(d[j], out distancias[i, j]);
             }
 
-            //Definição do percurso:
-            Console.WriteLine("Qual percurso deseja percorrer?");
-            string? percurso = Console.ReadLine();
-            string[] cidades;
-            cidades = percurso.Split(',');
+            //////Definição do percurso:
+            string pathPercurso = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "caminho.txt");
+            int[] cidades = File.ReadAllText(pathPercurso).Split(',').Select(int.Parse).ToArray();
 
             //Cálculo da distância percorrida:
             int distanciaPercorrida = 0;
             for (int k = 0; k < cidades.Length - 1; k++)
             {
-                int.TryParse(cidades[k], out int cidadeInicial);
-                int.TryParse(cidades[k + 1], out int cidadeFinal);
+                int cidadeInicial = cidades[k];
+                int cidadeFinal = cidades[k + 1];
                 distanciaPercorrida = distanciaPercorrida + distancias[cidadeInicial - 1, cidadeFinal - 1];
             }
             Console.WriteLine($"Distância total: {distanciaPercorrida} km");

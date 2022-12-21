@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using CsvHelper;
+using CsvHelper.Configuration;
+using System.Globalization;
 
 namespace Caixeiro_Viajante
 {
@@ -11,26 +14,38 @@ namespace Caixeiro_Viajante
     {
         static void Main()
         {
+            //Configurando o recebimento do arquivo de entrada
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = false,
+            };
             //Leitura do arquivo de entrada:
             string pathMatriz = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "matriz.txt");
-            string input = File.ReadAllText(pathMatriz);
-            string[] matriz = input.Split(Environment.NewLine);
+            using var readerMatriz = new StreamReader(pathMatriz);
+            using var csvMatriz = new CsvParser(readerMatriz, config);
+
+            //Verificação de existência de conteúdo:
+            if (!csv.Read())
+                return;
 
             //Matriz de distâncias:
-            int numeroCidades = matriz.Length;
+            int numeroCidades = csvMatriz.Record.Length;
             int[,] distancias = new int[numeroCidades, numeroCidades];
 
             //Preenchimento da matriz:
             for (int i = 0; i < numeroCidades; i++)
             {
-                string[] d = matriz[i].Split(',');
+                string[] d = csvMatriz.Record;
                 for (int j = 0; j < numeroCidades; j++)
                     int.TryParse(d[j], out distancias[i, j]);
+                csvMatriz.Read();
             }
-
+            
             //////Definição do percurso:
             string pathPercurso = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "caminho.txt");
-            int[] cidades = File.ReadAllText(pathPercurso).Split(',').Select(int.Parse).ToArray();
+            using var readerPercurso = new StreamReader(pathPercurso);
+            using var csvPercurso = new CsvParser(readerPercurso, config);
+            int[] cidades = csvPercurso.Record.Select(int.Parse).ToArray(); 
 
             //Cálculo da distância percorrida:
             int distanciaPercorrida = 0;

@@ -25,7 +25,7 @@ namespace Caixeiro_Viajante
             using var csvMatriz = new CsvParser(readerMatriz, config);
 
             //Verificação de existência de conteúdo:
-            if (!csv.Read())
+            if (!csvMatriz.Read())
                 return;
 
             //Matriz de distâncias:
@@ -45,7 +45,12 @@ namespace Caixeiro_Viajante
             string pathPercurso = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "caminho.txt");
             using var readerPercurso = new StreamReader(pathPercurso);
             using var csvPercurso = new CsvParser(readerPercurso, config);
-            int[] cidades = csvPercurso.Record.Select(int.Parse).ToArray(); 
+
+            //Verificação de existência de conteúdo:
+            if (!csvPercurso.Read())
+                return;
+
+            int[] cidades = csvPercurso.Record.Select(int.Parse).ToArray();
 
             //Cálculo da distância percorrida:
             int distanciaPercorrida = 0;
